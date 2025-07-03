@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>RAVS Hosting - Pesanan</title>
+  <link href="style.css" rel="stylesheet"/>
+</head>
+<body>
+  <header><h1>RAVS Store – Form Pesanan</h1></header>
+  <section class="form-section">
+    <form id="order-form">
+      <label>Nama Paket:</label>
+      <input name="paket" readonly />
+
+      <label>Slot Hosting:</label>
+      <input name="slot" required />
+
+      <label>RAM:</label>
+      <input name="ram" required />
+
+      <label>CPU:</label>
+      <input name="cpu" required />
+
+      <label>Storage:</label>
+      <input name="storage" required />
+
+      <label>Nomor WhatsApp:</label>
+      <input name="whatsapp" type="tel" placeholder="08xxxxxxxxxx" required />
+
+      <button type="submit" class="btn green">Kirim Pesanan</button>
+    </form>
+    <a href="index.html" class="btn back">← Kembali</a>
+  </section>
+  <script src="script.js"></script>
+</body>
+</html>
