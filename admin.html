@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -44,7 +43,7 @@
       (data.chat || []).forEach(msg => {
         const p = document.createElement('p');
         p.className = msg.from === 'admin' ? 'text-right text-blue-600' : 'text-left text-gray-800';
-        p.textContent = `${msg.from === 'admin' ? 'Admin' : 'Pembeli'}: ${msg.text}`;
+        p.textContent = `${msg.sender || (msg.from === 'admin' ? 'Admin' : 'Pembeli')}: ${msg.text}`;
         chatBox.appendChild(p);
       });
 
@@ -54,6 +53,14 @@
       input.className = 'border p-2 w-full mb-2 rounded';
       input.placeholder = 'Tulis balasan...';
 
+      const senderSelect = document.createElement('select');
+      senderSelect.id = `sender-${key}`;
+      senderSelect.className = 'mb-2 border p-2 rounded w-full';
+      senderSelect.innerHTML = `
+        <option value="admin-wa">Admin (WA: 081275347835)</option>
+        <option value="admin-email">Admin (Email: riorefan422@gmail.com)</option>
+      `;
+
       const sendBtn = document.createElement('button');
       sendBtn.className = 'bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded';
       sendBtn.textContent = 'Kirim';
@@ -62,20 +69,23 @@
         const msg = input.value.trim();
         if (msg === '') return;
 
+        const sender = document.getElementById(`sender-${key}`).value === 'admin-wa' ? 'Admin WA' : 'Admin Email';
+
         const chat = allOrders[key].chat || [];
-        chat.push({ from: 'admin', text: msg });
+        chat.push({ from: 'admin', text: msg, sender });
         allOrders[key].chat = chat;
 
         localStorage.setItem('orders', JSON.stringify(allOrders));
 
         const newMsg = document.createElement('p');
         newMsg.className = 'text-right text-blue-600';
-        newMsg.textContent = `Admin: ${msg}`;
+        newMsg.textContent = `${sender}: ${msg}`;
         chatBox.appendChild(newMsg);
         input.value = '';
         chatBox.scrollTop = chatBox.scrollHeight;
       };
 
+      container.appendChild(senderSelect);
       container.appendChild(input);
       container.appendChild(sendBtn);
       chatList.appendChild(container);
