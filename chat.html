@@ -1,27 +1,20 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8" />
-  <title>Chat Pelanggan</title>
+  <meta charset="UTF-8">
+  <title>Chat dengan Admin</title>
+  <script defer src="chat.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
-<body>
-  <h1>Chat dengan Admin</h1>
-  <p id="infoPaket"></p>
+<body class="bg-gray-100 p-4">
+  <h1 class="text-xl font-bold mb-2">Chat dengan Admin</h1>
+  <p id="paket" class="mb-4 text-sm text-gray-700"></p>
 
-  <script>
-    // Ambil paket dari URL
-    const urlParams = new URLSearchParams(window.location.search);
-    const paket = urlParams.get("paket");
+  <div id="chatBox" class="bg-white p-4 rounded shadow h-64 overflow-y-auto mb-4"></div>
 
-    // Simpan ke localStorage agar admin bisa lihat
-    if (paket) {
-      let chats = JSON.parse(localStorage.getItem("chats") || "[]");
-      chats.push({ paket: paket, waktu: new Date().toLocaleString() });
-      localStorage.setItem("chats", JSON.stringify(chats));
-    }
-
-    // Tampilkan info paket
-    document.getElementById("infoPaket").textContent = paket ? `Anda memilih paket: ${paket}` : "Paket tidak ditemukan.";
-  </script>
+  <form id="chatForm" class="flex">
+    <input id="messageInput" class="flex-grow border rounded-l px-3 py-2" placeholder="Ketik pesan..." required>
+    <button type="submit" class="bg-blue-500 text-white px-4 rounded-r">Kirim</button>
+  </form>
 </body>
 </html>
