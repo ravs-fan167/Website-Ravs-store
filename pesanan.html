@@ -33,5 +33,24 @@
     <a href="index.html" class="btn back">← Kembali</a>
   </section>
   <script src="script.js"></script>
+
+<script>
+  document.getElementById('order-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const formData = new FormData(e.target);
+    const order = Object.fromEntries(formData.entries());
+    const orderId = order.whatsapp;
+
+    const allOrders = JSON.parse(localStorage.getItem('orders')) || {};
+    allOrders[orderId] = { ...order, chat: [{ from: 'user', text: 'Saya ingin memesan hosting ini.' }] };
+
+    localStorage.setItem('orders', JSON.stringify(allOrders));
+    alert('Pesanan dikirim! Silakan tunggu konfirmasi admin.');
+
+    location.href = 'index.html';
+  });
+</script>
+
 </body>
 </html>
