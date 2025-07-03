@@ -28,29 +28,31 @@
       <label>Nomor WhatsApp:</label>
       <input name="whatsapp" type="tel" placeholder="08xxxxxxxxxx" required />
 
+      <label>Pesan untuk Admin:</label>
+      <textarea name="chatText" placeholder="Contoh: Saya ingin tanya soal RAM..." required></textarea>
+
       <button type="submit" class="btn green">Kirim Pesanan</button>
     </form>
     <a href="index.html" class="btn back">← Kembali</a>
   </section>
-  <script src="script.js"></script>
+  <script>
+    document.getElementById('order-form').addEventListener('submit', function(e) {
+      e.preventDefault();
 
-<script>
-  document.getElementById('order-form').addEventListener('submit', function(e) {
-    e.preventDefault();
+      const formData = new FormData(e.target);
+      const order = Object.fromEntries(formData.entries());
+      const orderId = order.whatsapp;
 
-    const formData = new FormData(e.target);
-    const order = Object.fromEntries(formData.entries());
-    const orderId = order.whatsapp;
+      const allOrders = JSON.parse(localStorage.getItem('orders')) || {};
+      allOrders[orderId] = {
+        ...order,
+        chat: [{ from: 'user', text: order.chatText }]
+      };
 
-    const allOrders = JSON.parse(localStorage.getItem('orders')) || {};
-    allOrders[orderId] = { ...order, chat: [{ from: 'user', text: 'Saya ingin memesan hosting ini.' }] };
-
-    localStorage.setItem('orders', JSON.stringify(allOrders));
-    alert('Pesanan dikirim! Silakan tunggu konfirmasi admin.');
-
-    location.href = 'index.html';
-  });
-</script>
-
+      localStorage.setItem('orders', JSON.stringify(allOrders));
+      alert('Pesanan dan pesan dikirim! Silakan tunggu balasan admin.');
+      location.href = 'index.html';
+    });
+  </script>
 </body>
 </html>
