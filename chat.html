@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <title>Chat Pelanggan</title>
+</head>
+<body>
+  <h1>Chat dengan Admin</h1>
+  <p id="infoPaket"></p>
+
+  <script>
+    // Ambil paket dari URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const paket = urlParams.get("paket");
+
+    // Simpan ke localStorage agar admin bisa lihat
+    if (paket) {
+      let chats = JSON.parse(localStorage.getItem("chats") || "[]");
+      chats.push({ paket: paket, waktu: new Date().toLocaleString() });
+      localStorage.setItem("chats", JSON.stringify(chats));
+    }
+
+    // Tampilkan info paket
+    document.getElementById("infoPaket").textContent = paket ? `Anda memilih paket: ${paket}` : "Paket tidak ditemukan.";
+  </script>
+</body>
+</html>
