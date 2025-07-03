@@ -1,0 +1,14 @@
+/* styles.css */
+
+body {
+  scroll-behavior: smooth;
+}
+
+a {
+  transition: all 0.3s ease;
+}
+
+.card-hover:hover {
+  transform: scale(1.02);
+  transition: transform 0.2s;
+}
