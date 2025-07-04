@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chat Pesanan</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .chat-container {
+      max-width: 600px;
+      margin: 40px auto;
+      background: #f3f4f6;
+      padding: 16px;
+      border-radius: 12px;
+      height: 80vh;
+      display: flex;
+      flex-direction: column;
+    }
+    .chat-box {
+      flex: 1;
+      overflow-y: auto;
+      margin-bottom: 12px;
+      border: 1px solid #ddd;
+      padding: 8px;
+      background: #fff;
+      border-radius: 8px;
+    }
+    .chat-box p {
+      margin: 6px 0;
+    }
+    .from-user {
+      text-align: left;
+      color: #111827;
+    }
+    .from-admin {
+      text-align: right;
+      color: #2563eb;
+    }
+    .input-area {
+      display: flex;
+      gap: 8px;
+    }
+    .input-area input {
+      flex: 1;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+    .input-area button {
+      background: #2563eb;
+      color: #fff;
+      padding: 8px 16px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="chat-container">
+    <div id="chat-box" class="chat-box"></div>
+    <div class="input-area">
+      <input type="text" id="chat-input" placeholder="Tulis pesan...">
+      <button onclick="sendMessage()">Kirim</button>
+    </div>
+  </div>
+
+  <script>
+    const userId = localStorage.getItem('currentUserId');
+    const orders = JSON.parse(localStorage.getItem('orders')) || {};
+    const chatData = orders[userId]?.chat || [];
+    const chatBox = document.getElementById('chat-box');
+
+    function renderChat() {
+      chatBox.innerHTML = '';
+      chatData.forEach(msg => {
+        const p = document.createElement('p');
+        p.className = msg.from === 'admin' ? 'from-admin' : 'from-user';
+        p.textContent = `${msg.from === 'admin' ? 'Admin' : 'Saya'}: ${msg.text}`;
+        chatBox.appendChild(p);
+      });
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    function sendMessage() {
+      const input = document.getElementById('chat-input');
+      const text = input.value.trim();
+      if (text === '') return;
+      chatData.push({ from: 'user', text });
+      orders[userId].chat = chatData;
+      localStorage.setItem('orders', JSON.stringify(orders));
+      input.value = '';
+      renderChat();
+    }
+
+    if (!userId || !orders[userId]) {
+      alert('Akses tidak valid. Silakan pesan terlebih dahulu.');
+      location.href = 'index.html';
+    } else {
+      renderChat();
+    }
+  </script>
+</body>
+</html>
