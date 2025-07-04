@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Form Pemesanan Hosting</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 font-sans p-6">
+  <div class="max-w-md mx-auto bg-white p-6 rounded-lg shadow-lg">
+    <h2 class="text-2xl font-bold mb-4">Form Pemesanan Hosting</h2>
+    <form id="orderForm">
+      <div class="mb-4">
+        <label class="block mb-1">Nama Paket</label>
+        <input type="text" id="paket" name="paket" class="w-full px-3 py-2 border rounded" readonly>
+      </div>
+      <div class="mb-4">
+        <label class="block mb-1">Slot Hosting</label>
+        <input type="text" id="slot" name="slot" class="w-full px-3 py-2 border rounded" required>
+      </div>
+      <div class="mb-4">
+        <label class="block mb-1">RAM</label>
+        <input type="text" id="ram" name="ram" class="w-full px-3 py-2 border rounded" required>
+      </div>
+      <div class="mb-4">
+        <label class="block mb-1">CPU</label>
+        <input type="text" id="cpu" name="cpu" class="w-full px-3 py-2 border rounded" required>
+      </div>
+      <div class="mb-4">
+        <label class="block mb-1">Storage</label>
+        <input type="text" id="storage" name="storage" class="w-full px-3 py-2 border rounded" required>
+      </div>
+      <div class="mb-4">
+        <label class="block mb-1">Nomor WhatsApp Anda</label>
+        <input type="text" id="whatsapp" name="whatsapp" class="w-full px-3 py-2 border rounded" required>
+      </div>
+      <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">Kirim ke WhatsApp Admin</button>
+    </form>
+  </div>
+
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const paket = urlParams.get('paket');
+    document.getElementById('paket').value = paket || "Tidak diketahui";
+
+    document.getElementById('orderForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const slot = document.getElementById('slot').value;
+      const ram = document.getElementById('ram').value;
+      const cpu = document.getElementById('cpu').value;
+      const storage = document.getElementById('storage').value;
+      const whatsapp = document.getElementById('whatsapp').value;
+
+      const message = `Halo Admin, saya ingin pesan hosting dengan data berikut:\n\n📦 Paket: ${paket}\n🔢 Slot: ${slot}\n💾 RAM: ${ram}\n🧠 CPU: ${cpu}\n🗂️ Storage: ${storage}\n📱 Nomor WhatsApp Saya: ${whatsapp}`;
+
+      const url = `https://wa.me/6281275347835?text=${encodeURIComponent(message)}`;
+      window.open(url, '_blank');
+    });
+  </script>
+</body>
+</html>
